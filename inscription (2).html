@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Tontine Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #25D366;
+            --dark: #128C7E;
+            --danger: #DC3545;
+            --warning: #FFC107;
+            --success: #28A745;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 20px;
+        }
+        
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #6c757d;
+            font-size: 16px;
+        }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e8f5e9, #e0f2f1);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .info-box h3 {
+            color: var(--dark);
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        
+        .info-value {
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .required {
+            color: var(--danger);
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.1);
+        }
+        
+        .form-group input::placeholder {
+            color: #aaa;
+        }
+        
+        .calendar-selector {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .month-option {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .month-option:hover:not(.taken) {
+            border-color: var(--primary);
+            background: rgba(37, 211, 102, 0.05);
+            transform: scale(1.05);
+        }
+        
+        .month-option.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--dark);
+            font-weight: 700;
+        }
+        
+        .month-option.taken {
+            background: #f5f5f5;
+            color: #aaa;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+        
+        .month-num {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .month-label {
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        
+        .checkbox-group {
+            margin: 25px 0;
+            padding: 20px;
+            background: #fff9e6;
+            border-radius: 12px;
+            border: 2px solid #ffd700;
+        }
+        
+        .checkbox-group label {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            margin-top: 2px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .alert {
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideDown 0.4s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+        
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .success-message.active {
+            display: block;
+        }
+        
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            margin: 0 auto 20px;
+            animation: scaleIn 0.5s ease-out;
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        .whatsapp-btn {
+            display: inline-block;
+            padding: 14px 30px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .whatsapp-btn:hover {
+            background: var(--dark);
+            transform: scale(1.05);
+        }
+        
+        .help-text {
+            font-size: 13px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .calendar-selector {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">📱</div>
+            <h1>Rejoignez Notre Tontine !</h1>
+            <p class="subtitle">Inscrivez-vous en quelques clics</p>
+        </div>
+        
+        <div class="info-box">
+            <h3>📋 Informations Importantes</h3>
+            <div class="info-item">
+                <span class="info-label">Cotisation mensuelle</span>
+                <span class="info-value">50 000 FCFA</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Date de paiement</span>
+                <span class="info-value">Le 10 de chaque mois</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">TEGUI à recevoir</span>
+                <span class="info-value">500 000 FCFA</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Durée du cycle</span>
+                <span class="info-value">11 mois</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Paiement</span>
+                <span class="info-value">Wave : 777 039 099</span>
+            </div>
+        </div>
+        
+        <div id="alertContainer"></div>
+        
+        <form id="inscriptionForm" style="display: block;">
+            <div class="form-group">
+                <label>Nom Complet <span class="required">*</span></label>
+                <input type="text" id="fullName" placeholder="Ex: Fatou Sall" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Numéro de Téléphone (Wave) <span class="required">*</span></label>
+                <input type="tel" id="phone" placeholder="77 123 45 67" required>
+                <div class="help-text">Votre numéro Wave pour recevoir le TEGUI</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="votre.email@exemple.com">
+                <div class="help-text">Optionnel - pour recevoir des notifications</div>
+            </div>
+            
+            <div class="form-group">
+                <label>Choisissez Votre Mois de TEGUI <span class="required">*</span></label>
+                <input type="hidden" id="selectedMonth" required>
+                <div class="calendar-selector" id="monthSelector">
+                    <!-- Généré par JavaScript -->
+                </div>
+                <div class="help-text">Sélectionnez le mois où vous souhaitez recevoir vos 500 000 FCFA</div>
+            </div>
+            
+            <div class="checkbox-group">
+                <label>
+                    <input type="checkbox" id="acceptRules" required>
+                    <span>J'ai lu et j'accepte le <strong>règlement intérieur</strong> de la tontine. Je m'engage à payer 50 000 FCFA chaque mois pendant 11 mois, même après avoir reçu mon TEGUI. <span class="required">*</span></span>
+                </label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" id="submitBtn">
+                ✅ Valider Mon Inscription
+            </button>
+        </form>
+        
+        <div id="successMessage" class="success-message">
+            <div class="success-icon">✓</div>
+            <h2 style="color: var(--success); margin-bottom: 15px;">Inscription Réussie !</h2>
+            <p style="color: #6c757d; margin-bottom: 10px;">Bienvenue <strong id="memberName"></strong> !</p>
+            <p style="color: #6c757d; margin-bottom: 20px;">Votre mois de TEGUI : <strong id="memberMonth"></strong></p>
+            
+            <div style="background: #fff9e6; padding: 20px; border-radius: 12px; margin: 20px 0;">
+                <p style="color: #856404; font-size: 14px; line-height: 1.6;">
+                    <strong>📌 Prochaines étapes :</strong><br>
+                    1. Rejoignez le groupe WhatsApp<br>
+                    2. Envoyez une photo de votre pièce d'identité<br>
+                    3. Attendez la confirmation de l'administrateur
+                </p>
+            </div>
+            
+            <a href="https://chat.whatsapp.com/KeXTSTTgO5A6xDfb3hJVlM" target="_blank" class="whatsapp-btn">
+                💬 Rejoindre le Groupe WhatsApp
+            </a>
+            
+            <p style="margin-top: 20px; color: #6c757d; font-size: 13px;">
+                Vous recevrez un message de bienvenue dans le groupe
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        const months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct', 'Nov'];
+        let members = [];
+        let selectedMonthValue = null;
+        
+        async function loadMembers() {
+            try {
+                const data = await window.storage.get('members');
+                if (data) {
+                    members = JSON.parse(data.value);
+                }
+            } catch (e) {
+                members = [];
+            }
+            renderMonthSelector();
+        }
+        
+        function renderMonthSelector() {
+            const selector = document.getElementById('monthSelector');
+            const takenMonths = members.map(m => m.tegui);
+            
+            selector.innerHTML = '';
+            
+            for (let i = 1; i <= 11; i++) {
+                const div = document.createElement('div');
+                div.className = 'month-option';
+                
+                if (takenMonths.includes(i)) {
+                    div.classList.add('taken');
+                    div.title = 'Mois déjà pris';
+                } else {
+                    div.onclick = () => selectMonth(i, div);
+                }
+                
+                div.innerHTML = `
+                    <div class="month-num">${i}</div>
+                    <div class="month-label">${months[i-1]}</div>
+                `;
+                
+                selector.appendChild(div);
+            }
+        }
+        
+        function selectMonth(month, element) {
+            document.querySelectorAll('.month-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+            selectedMonthValue = month;
+            document.getElementById('selectedMonth').value = month;
+        }
+        
+        function showAlert(message, type) {
+            const container = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                <span>${type === 'success' ? '✓' : '⚠'}</span>
+                <span>${message}</span>
+            `;
+            container.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+        
+        async function saveMember(member) {
+            try {
+                members.push(member);
+                await window.storage.set('members', JSON.stringify(members));
+                return true;
+            } catch (e) {
+                console.error('Erreur de sauvegarde:', e);
+                return false;
+            }
+        }
+        
+        document.getElementById('inscriptionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Inscription en cours...';
+            
+            if (!selectedMonthValue) {
+                showAlert('Veuillez choisir votre mois de TEGUI', 'danger');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '✅ Valider Mon Inscription';
+                return;
+            }
+            
+            if (!document.getElementById('acceptRules').checked) {
+                showAlert('Vous devez accepter le règlement', 'danger');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '✅ Valider Mon Inscription';
+                return;
+            }
+            
+            const member = {
+                id: Date.now(),
+                name: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                tegui: selectedMonthValue,
+                joinedDate: new Date().toISOString(),
+                status: 'pending'
+            };
+            
+            const saved = await saveMember(member);
+            
+            if (saved) {
+                document.getElementById('memberName').textContent = member.name;
+                document.getElementById('memberMonth').textContent = `Mois ${member.tegui}`;
+                
+                document.getElementById('inscriptionForm').style.display = 'none';
+                document.getElementById('successMessage').classList.add('active');
+                
+                // Envoyer notification à l'admin (optionnel)
+                await notifyAdmin(member);
+            } else {
+                showAlert('Erreur lors de l\'inscription. Réessayez.', 'danger');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '✅ Valider Mon Inscription';
+            }
+        });
+        
+        async function notifyAdmin(member) {
+            try {
+                await window.storage.set(`new-member-${member.id}`, JSON.stringify({
+                    ...member,
+                    timestamp: new Date().toISOString()
+                }));
+            } catch (e) {
+                console.log('Notification admin non envoyée');
+            }
+        }
+        
+        // Validation du numéro de téléphone
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 9) value = value.slice(0, 9);
+            
+            if (value.length >= 2) {
+                e.target.value = value.slice(0, 2) + ' ' + value.slice(2);
+            }
+            if (value.length >= 5) {
+                e.target.value = value.slice(0, 2) + ' ' + value.slice(2, 5) + ' ' + value.slice(5);
+            }
+            if (value.length >= 7) {
+                e.target.value = value.slice(0, 2) + ' ' + value.slice(2, 5) + ' ' + value.slice(5, 7) + ' ' + value.slice(7);
+            }
+        });
+        
+        loadMembers();
+    </script>
+</body>
+</html>

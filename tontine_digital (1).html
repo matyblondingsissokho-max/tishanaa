@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tontine Digital WhatsApp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #25D366;
+            --dark: #128C7E;
+            --danger: #DC3545;
+            --warning: #FFC107;
+            --success: #28A745;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            font-size: 32px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .whatsapp-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .stat-label { font-size: 14px; opacity: 0.9; text-transform: uppercase; }
+        .stat-value { font-size: 28px; font-weight: 700; margin-top: 5px; }
+        
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--dark);
+            transform: translateY(-2px);
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .member-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .member-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .member-info { display: flex; align-items: center; gap: 15px; }
+        
+        .member-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .badge-success { background: var(--success); color: white; }
+        .badge-warning { background: var(--warning); color: #000; }
+        
+        .message-box {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .message-box h4 {
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .message-box pre {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            color: #6c757d;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        
+        @media (max-width: 768px) {
+            .member-card {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="margin-bottom: 15px;">
+                <a href="index.html" style="display: inline-block; padding: 10px 20px; background: #6c757d; color: white; text-decoration: none; border-radius: 10px; font-size: 14px; font-weight: 600; margin-right: 10px; transition: all 0.3s;">← Accueil</a>
+                <a href="affiche_tontine.html" style="display: inline-block; padding: 10px 20px; background: var(--primary); color: white; text-decoration: none; border-radius: 10px; font-size: 14px; font-weight: 600; transition: all 0.3s;">📢 Affiche</a>
+            </div>
+            <h1>
+                <div class="whatsapp-icon">📱</div>
+                Tontine Digital WhatsApp
+            </h1>
+            <p style="color: #6c757d; margin-top: 5px;">50 000 FCFA/mois - 11 membres - Cycle de 11 mois</p>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-label">Membres Inscrits</div>
+                    <div class="stat-value" id="totalMembers">0/11</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Mois Actuel</div>
+                    <div class="stat-value" id="currentMonth">1</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Collecté ce Mois</div>
+                    <div class="stat-value" id="collected">0 FCFA</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Gestion des Membres -->
+        <div class="card">
+            <div class="card-title">👥 Gestion des Membres</div>
+            
+            <div id="newMembersAlert" style="display: none; background: #fff3cd; border: 2px solid #ffc107; padding: 15px; border-radius: 12px; margin-bottom: 20px; animation: pulse 2s infinite;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong>🔔 <span id="newMembersCount"></span> nouvelle(s) inscription(s) en attente !</strong>
+                    <button onclick="checkNewMembers()" style="padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Voir</button>
+                </div>
+            </div>
+            
+            <form id="memberForm" onsubmit="addMember(event)" style="background: #f8f9fa; padding: 25px; border-radius: 15px; margin-bottom: 20px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="input-group">
+                        <label>Nom Complet *</label>
+                        <input type="text" id="memberName" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Téléphone Wave *</label>
+                        <input type="tel" id="memberPhone" placeholder="77 123 45 67" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Mois TEGUI (1-11) *</label>
+                        <select id="memberTegui" required>
+                            <option value="">Choisir...</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Email</label>
+                        <input type="email" id="memberEmail">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">➕ Ajouter le Membre</button>
+            </form>
+            
+            <div class="member-list" id="memberList"></div>
+        </div>
+        
+        <!-- Messages WhatsApp -->
+        <div class="card">
+            <div class="card-title">💬 Messages WhatsApp</div>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('welcome')">Bienvenue</button>
+                <button class="tab" onclick="switchTab('reminder')">Rappel</button>
+                <button class="tab" onclick="switchTab('late')">Retard</button>
+                <button class="tab" onclick="switchTab('tegui')">TEGUI</button>
+            </div>
+            
+            <div id="welcome" class="tab-content active">
+                <div class="message-box">
+                    <h4>Message de Bienvenue</h4>
+                    <button class="copy-btn" onclick="copyMessage('welcome')">📋 Copier</button>
+                    <pre>🎉 *BIENVENUE DANS LA TONTINE DIGITAL* 🎉
+
+Bonjour {NOM},
+
+Félicitations ! Vous faites partie de notre tontine WhatsApp.
+
+📌 *INFORMATIONS :*
+• Cotisation : 50 000 FCFA/mois
+• Date limite : Le 10 de chaque mois
+• Votre TEGUI : Mois {NUMERO}
+• Montant TEGUI : 500 000 FCFA
+• Paiement : Wave uniquement
+• N° Wave : 777 039 099
+
+⚠️ *RÈGLES :*
+• Paiement avant le 10
+• Pénalité : 1 000 FCFA/jour de retard
+• Tolérance max : 2 jours
+• Engagement pour 11 mois
+
+Bienvenue ! 🤝</pre>
+                </div>
+            </div>
+            
+            <div id="reminder" class="tab-content">
+                <div class="message-box">
+                    <h4>Rappel de Paiement</h4>
+                    <button class="copy-btn" onclick="copyMessage('reminder')">📋 Copier</button>
+                    <pre>⏰ *RAPPEL - TONTINE* ⏰
+
+Bonjour {NOM},
+
+Rappel : votre cotisation arrive à échéance.
+
+💰 *PAIEMENT :*
+• Montant : 50 000 FCFA
+• Date limite : Le 10 {MOIS}
+• Wave : 777 039 099
+
+📸 Envoyez la capture Wave dans le groupe.
+
+Ce mois : {BENEFICIAIRE} reçoit 500 000 FCFA ! 🎊
+
+Merci ! ⏱️</pre>
+                </div>
+            </div>
+            
+            <div id="late" class="tab-content">
+                <div class="message-box">
+                    <h4>Alerte Retard</h4>
+                    <button class="copy-btn" onclick="copyMessage('late')">📋 Copier</button>
+                    <pre>🚨 *ALERTE RETARD* 🚨
+
+Bonjour {NOM},
+
+Votre cotisation de {MOIS} n'est pas reçue.
+
+⚠️ *SITUATION :*
+• Jours de retard : {NB_JOURS}
+• Pénalité : {PENALITE} FCFA
+
+💰 *À PAYER :*
+• Cotisation : 50 000 FCFA
+• Pénalité : {PENALITE} FCFA
+• *TOTAL : {TOTAL} FCFA*
+
+Wave : 777 039 099
+
+Régularisez rapidement svp.</pre>
+                </div>
+            </div>
+            
+            <div id="tegui" class="tab-content">
+                <div class="message-box">
+                    <h4>Distribution TEGUI</h4>
+                    <button class="copy-btn" onclick="copyMessage('tegui')">📋 Copier</button>
+                    <pre>🎉 *DISTRIBUTION TEGUI - MOIS {NUMERO}* 🎉
+
+Félicitations {NOM} ! 🎊
+
+💰 *MONTANT : 500 000 FCFA*
+
+📊 *RÉCAPITULATIF :*
+• Payé : {NB_PAYES}/11
+• Collecté : {MONTANT} FCFA
+
+📱 Transfert sous 24h sur votre Wave.
+
+⚠️ Vous restez engagé pour {MOIS_RESTANTS} mois.
+
+Bonne réception ! 💸</pre>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Suivi des Paiements -->
+        <div class="card">
+            <div class="card-title">📊 Suivi des Paiements</div>
+            
+            <div class="input-group">
+                <label>Mois en cours</label>
+                <select id="monthSelect" onchange="updateMonth()">
+                    <option value="1">Mois 1</option>
+                    <option value="2">Mois 2</option>
+                    <option value="3">Mois 3</option>
+                    <option value="4">Mois 4</option>
+                    <option value="5">Mois 5</option>
+                    <option value="6">Mois 6</option>
+                    <option value="7">Mois 7</option>
+                    <option value="8">Mois 8</option>
+                    <option value="9">Mois 9</option>
+                    <option value="10">Mois 10</option>
+                    <option value="11">Mois 11</option>
+                </select>
+            </div>
+            
+            <div id="paymentList"></div>
+        </div>
+    </div>
+    
+    <script>
+        let members = [];
+        let payments = {};
+        let currentMonth = 1;
+        
+        async function loadData() {
+            try {
+                const m = await window.storage.get('members');
+                const p = await window.storage.get('payments');
+                const c = await window.storage.get('month');
+                if (m) members = JSON.parse(m.value);
+                if (p) payments = JSON.parse(p.value);
+                if (c) currentMonth = parseInt(c.value);
+            } catch (e) {
+                members = [];
+                payments = {};
+            }
+            updateUI();
+            checkForNewInscriptions();
+        }
+        
+        async function checkForNewInscriptions() {
+            try {
+                const keys = await window.storage.list('new-member-');
+                if (keys && keys.keys && keys.keys.length > 0) {
+                    document.getElementById('newMembersAlert').style.display = 'block';
+                    document.getElementById('newMembersCount').textContent = keys.keys.length;
+                }
+            } catch (e) {
+                console.log('Pas de nouvelles inscriptions');
+            }
+        }
+        
+        async function checkNewMembers() {
+            try {
+                const keys = await window.storage.list('new-member-');
+                if (!keys || !keys.keys || keys.keys.length === 0) {
+                    alert('Aucune nouvelle inscription');
+                    return;
+                }
+                
+                let newMembersHtml = '<div style="margin-top: 15px;">';
+                
+                for (const key of keys.keys) {
+                    const data = await window.storage.get(key);
+                    if (data) {
+                        const member = JSON.parse(data.value);
+                        newMembersHtml += `
+                            <div style="background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; border: 2px solid #e0e0e0;">
+                                <strong>${member.name}</strong><br>
+                                <small>📱 ${member.phone} | Mois ${member.tegui}</small><br>
+                                <div style="margin-top: 10px;">
+                                    <button onclick="approveInscription('${key}', ${JSON.stringify(member).replace(/"/g, '&quot;')})" 
+                                            style="padding: 6px 12px; background: var(--success); color: white; border: none; border-radius: 6px; cursor: pointer; margin-right: 5px;">
+                                        ✓ Approuver
+                                    </button>
+                                    <button onclick="rejectInscription('${key}')" 
+                                            style="padding: 6px 12px; background: var(--danger); color: white; border: none; border-radius: 6px; cursor: pointer;">
+                                        ✗ Rejeter
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+                
+                newMembersHtml += '</div>';
+                
+                const modal = document.createElement('div');
+                modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 10000;';
+                modal.innerHTML = `
+                    <div style="background: white; padding: 30px; border-radius: 20px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h2 style="margin: 0;">Nouvelles Inscriptions</h2>
+                            <button onclick="this.closest('div').parentElement.remove()" style="font-size: 24px; border: none; background: none; cursor: pointer; color: #6c757d;">×</button>
+                        </div>
+                        ${newMembersHtml}
+                    </div>
+                `;
+                document.body.appendChild(modal);
+                
+            } catch (e) {
+                console.error('Erreur:', e);
+                alert('Erreur lors de la récupération des inscriptions');
+            }
+        }
+        
+        async function approveInscription(key, memberData) {
+            const member = typeof memberData === 'string' ? JSON.parse(memberData) : memberData;
+            
+            // Vérifier si le mois est toujours disponible
+            if (members.some(m => m.tegui === member.tegui)) {
+                alert('Ce mois de TEGUI est déjà pris. Veuillez contacter le membre.');
+                return;
+            }
+            
+            member.status = 'approved';
+            members.push(member);
+            
+            await saveData();
+            await window.storage.delete(key);
+            
+            alert(`✅ ${member.name} a été ajouté à la tontine !`);
+            
+            // Fermer le modal
+            document.querySelector('[style*="z-index: 10000"]')?.remove();
+            
+            updateUI();
+            checkForNewInscriptions();
+        }
+        
+        async function rejectInscription(key) {
+            if (confirm('Êtes-vous sûr de vouloir rejeter cette inscription ?')) {
+                await window.storage.delete(key);
+                alert('Inscription rejetée');
+                document.querySelector('[style*="z-index: 10000"]')?.remove();
+                checkForNewInscriptions();
+            }
+        }
+        
+        async function saveData() {
+            await window.storage.set('members', JSON.stringify(members));
+            await window.storage.set('payments', JSON.stringify(payments));
+            await window.storage.set('month', currentMonth.toString());
+        }
+        
+        function updateTeguiOptions() {
+            const select = document.getElementById('memberTegui');
+            const taken = members.map(m => m.tegui);
+            select.innerHTML = '<option value="">Choisir...</option>';
+            for (let i = 1; i <= 11; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = `Mois ${i}${taken.includes(i) ? ' (Pris)' : ''}`;
+                opt.disabled = taken.includes(i);
+                select.appendChild(opt);
+            }
+        }
+        
+        async function addMember(e) {
+            e.preventDefault();
+            const member = {
+                id: Date.now(),
+                name: document.getElementById('memberName').value,
+                phone: document.getElementById('memberPhone').value,
+                tegui: parseInt(document.getElementById('memberTegui').value),
+                email: document.getElementById('memberEmail').value
+            };
+            members.push(member);
+            await saveData();
+            document.getElementById('memberForm').reset();
+            updateUI();
+            alert(`✅ ${member.name} ajouté ! TEGUI: Mois ${member.tegui}`);
+        }
+        
+        async function togglePayment(id) {
+            const key = `${id}-${currentMonth}`;
+            if (payments[key]) {
+                delete payments[key];
+            } else {
+                payments[key] = { amount: 50000, date: new Date().toISOString() };
+            }
+            await saveData();
+            updateUI();
+        }
+        
+        function updateUI() {
+            // Stats
+            document.getElementById('totalMembers').textContent = `${members.length}/11`;
+            document.getElementById('currentMonth').textContent = currentMonth;
+            const paid = Object.keys(payments).filter(k => k.endsWith(`-${currentMonth}`)).length;
+            document.getElementById('collected').textContent = `${(paid * 50000).toLocaleString()} FCFA`;
+            
+            // Liste membres
+            const list = document.getElementById('memberList');
+            if (members.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #6c757d; padding: 20px;">Aucun membre</p>';
+            } else {
+                list.innerHTML = members.map(m => {
+                    const isPaid = payments[`${m.id}-${currentMonth}`];
+                    return `
+                        <div class="member-card">
+                            <div class="member-info">
+                                <div class="member-avatar">${m.name.charAt(0)}</div>
+                                <div>
+                                    <h3 style="font-size: 16px; margin-bottom: 5px;">${m.name}</h3>
+                                    <p style="font-size: 13px; color: #6c757d;">📱 ${m.phone} • TEGUI Mois ${m.tegui}</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                <span class="badge ${isPaid ? 'badge-success' : 'badge-warning'}">
+                                    ${isPaid ? '✓ Payé' : '⏳ Attente'}
+                                </span>
+                                <button class="btn btn-primary" onclick="togglePayment(${m.id})" style="padding: 8px 16px;">
+                                    ${isPaid ? 'Annuler' : 'Marquer payé'}
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            // Suivi paiements
+            const payList = document.getElementById('paymentList');
+            if (members.length === 0) {
+                payList.innerHTML = '<p style="text-align: center; color: #6c757d; padding: 20px;">Aucun membre</p>';
+            } else {
+                const paidMembers = members.filter(m => payments[`${m.id}-${currentMonth}`]);
+                payList.innerHTML = `
+                    <div style="margin-top: 20px;">
+                        <h4 style="margin-bottom: 15px;">Paiements reçus : ${paidMembers.length}/${members.length}</h4>
+                        ${members.map(m => {
+                            const isPaid = payments[`${m.id}-${currentMonth}`];
+                            return `
+                                <div style="display: flex; justify-content: space-between; padding: 12px; background: ${isPaid ? '#d4edda' : '#fff3cd'}; border-radius: 8px; margin-bottom: 10px;">
+                                    <span>${m.name}</span>
+                                    <span class="badge ${isPaid ? 'badge-success' : 'badge-warning'}">${isPaid ? '✓ Payé' : '⏳ Attente'}</span>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            }
+            
+            updateTeguiOptions();
+        }
+        
+        function switchTab(name) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(name).classList.add('active');
+        }
+        
+        function copyMessage(type) {
+            const msg = event.target.previousElementSibling.textContent;
+            navigator.clipboard.writeText(msg).then(() => {
+                alert('✅ Message copié !');
+            });
+        }
+        
+        async function updateMonth() {
+            currentMonth = parseInt(document.getElementById('monthSelect').value);
+            await saveData();
+            updateUI();
+        }
+        
+        loadData();
+    </script>
+</body>
+</html>
